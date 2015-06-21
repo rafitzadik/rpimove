@@ -32,6 +32,7 @@ class Move(object):
 			self.right_speed = self.speed
 		self.lenc = enc_read(0)
 		self.renc = enc_read(1)
+		print('setting left_speed to: ' + str(self.left_speed) + ' right_speed to: ' + str(self.right_speed))
 		motor_fwd()
 		set_left_speed(self.left_speed)
 		set_right_speed(self.right_speed)
@@ -47,6 +48,11 @@ class Move(object):
 			print ('veer right by decreasing right speed by ' + str(amount) + ' to ' + str(self.right_speed))
 		else:
 			print ('could not veer right')
+
+	# def veer_right(self,amount):
+	# 	self.right_speed -= amount
+	# 	set_right_speed(self.right_speed)
+	# 	print ('veer right by decreasing right speed by ' + str(amount) + ' to ' + str(self.right_speed))
 
 	def veer_left(self, amount):
 		if ( (self.right_speed + amount) < self.speed):
@@ -74,17 +80,26 @@ class Move(object):
 			return
 		
 		if (nlenc != -1) and (self.lenc != -1) and (nrenc != -1) and (self.renc != -1): # all reading are valid
-			if (nrenc > self.renc): # right wheel moved at all?
-				trim = float(nlenc - self.lenc) / (nrenc - self.renc)
+			rdiff = nrenc - self.renc
+			ldiff = nlenc - self.lenc
+			if (self.heading == 1 and abs(rdiff - ldiff) <= 1):
+				#just continue
+				print("going straight and diff is close enough")
 			else:
-				trim = 100 # sort of infinite
-			print ('trim: ' + str(trim))
-			if (trim < 0.95 * self.heading):
-				self.veer_right(10)
-			elif (trim > 1.05 * self.heading):
-				self.veer_left(10)
-		self.lenc = nlenc
-		self.renc = nrenc
+				if (nrenc > self.renc): # right wheel moved at all?
+					trim = float(nlenc - self.lenc) / (nrenc - self.renc)
+				else:
+					trim = 100 # sort of infinite
+				print ('trim: ' + str(trim))
+				if (trim < self.heading):
+					self.veer_right(2)
+				elif (trim > self.heading):
+					self.veer_left(2)
+				self.lenc = nlenc
+				self.renc = nrenc
+		else:
+			self.lenc = nlenc
+			self.renc = nrenc
 		
 
 

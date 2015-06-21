@@ -13,7 +13,7 @@ signal.signal(signal.SIGTERM, signalHandler)
 m = Move()
 kb = KBHit()
 
-print ("press jkl to move left, straight, right, m to stop, ESC to exit")
+print ("press jkl to move left, straight, right, i to go back, m to stop, ESC to exit")
 
 while not stop_now:
     if (kb.kbhit()):
@@ -26,6 +26,9 @@ while not stop_now:
             m.move(1)
         elif c == 'm':
             m.stop()
+	elif c == 'i':
+            m.stop()
+	    bwd()
         elif ord(c) == 27:
             stop_now = True
     m.course_correct()

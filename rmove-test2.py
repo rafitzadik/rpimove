@@ -6,7 +6,7 @@ from gopigo import *
 m = Move()
 
 m.move(1, 100)
-for i in range(0,20):
+for i in range(0,40):
 	m.course_correct()
 	time.sleep(0.1)
 m.stop()

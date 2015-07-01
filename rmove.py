@@ -21,7 +21,7 @@ class Move(object):
 		stop()
 
 	def move(self, heading = 1.0, speed = 100):
-		print('move in direction ' + str(heading))
+		#print('move in direction ' + str(heading))
 		self.heading = heading
 		self.speed = speed
 		if (self.calibrate * self.heading >= 1):
@@ -32,7 +32,7 @@ class Move(object):
 			self.right_speed = self.speed
 		self.lenc = enc_read(0)
 		self.renc = enc_read(1)
-		print('setting left_speed to: ' + str(self.left_speed) + ' right_speed to: ' + str(self.right_speed))
+		#print('setting left_speed to: ' + str(self.left_speed) + ' right_speed to: ' + str(self.right_speed))
 		motor_fwd()
 		set_left_speed(self.left_speed)
 		set_right_speed(self.right_speed)
@@ -41,13 +41,13 @@ class Move(object):
 		if ( (self.left_speed + amount) <= self.speed):
 			self.left_speed += amount
 			set_left_speed(self.left_speed)
-			print ('veer right by increasing left speed by ' + str(amount) + ' to ' + str(self.left_speed))
+			#print ('veer right by increasing left speed by ' + str(amount) + ' to ' + str(self.left_speed))
 		elif (self.right_speed >= amount):
 			self.right_speed -= amount
 			set_right_speed(self.right_speed)
-			print ('veer right by decreasing right speed by ' + str(amount) + ' to ' + str(self.right_speed))
-		else:
-			print ('could not veer right')
+			#print ('veer right by decreasing right speed by ' + str(amount) + ' to ' + str(self.right_speed))
+		#else:
+			#print ('could not veer right')
 
 	# def veer_right(self,amount):
 	# 	self.right_speed -= amount
@@ -58,13 +58,13 @@ class Move(object):
 		if ( (self.right_speed + amount) < self.speed):
 			self.right_speed += amount
 			set_right_speed(self.right_speed)
-			print ('veer left by increasing right speed by ' + str(amount) + ' to ' + str(self.right_speed))
+			#print ('veer left by increasing right speed by ' + str(amount) + ' to ' + str(self.right_speed))
 		elif (self.left_speed > amount):
 			self.left_speed -= amount
 			set_left_speed(self.left_speed)
-			print ('veer left by decreasing left speed by ' + str(amount) + ' to ' + str(self.left_speed))
-		else:
-			print ('could not veer left')
+			#print ('veer left by decreasing left speed by ' + str(amount) + ' to ' + str(self.left_speed))
+		#else:
+			#print ('could not veer left')
 
 
 	def course_correct(self):
@@ -73,7 +73,7 @@ class Move(object):
 		
 		nlenc = enc_read(0)
 		nrenc = enc_read(1)
-		print('left: ' + str(nlenc - self.lenc) + ' right: ' + str(nrenc - self.renc))
+		#print('left: ' + str(nlenc - self.lenc) + ' right: ' + str(nrenc - self.renc))
 		if ( (nlenc - self.lenc) == 0 and (nrenc - self.renc) == 0 ):
 			# we should be moving but we're stopped, retry moving forward
 			self.move(self.heading, self.speed)
@@ -84,13 +84,14 @@ class Move(object):
 			ldiff = nlenc - self.lenc
 			if (self.heading == 1 and abs(rdiff - ldiff) <= 1):
 				#just continue
-				print("going straight and diff is close enough")
+				#print("going straight and diff is close enough")
+				x = 0 #how do I write noop
 			else:
 				if (nrenc > self.renc): # right wheel moved at all?
 					trim = float(nlenc - self.lenc) / (nrenc - self.renc)
 				else:
 					trim = 100 # sort of infinite
-				print ('trim: ' + str(trim))
+				#print ('trim: ' + str(trim))
 				if (trim < self.heading):
 					self.veer_right(2)
 				elif (trim > self.heading):

@@ -39,13 +39,15 @@ def fwd_slow():
 	raw_input('Enter to fwd()')
 	fwd()
 
+
+set_speed(100)
 print "This is a basic example for the GoPiGo Robot control"
 print "Press:\n\tw: Move GoPiGo Robot forward\n\ta: Turn GoPiGo Robot left\n\td: Turn GoPiGo Robot right\n\ts: Move GoPiGo Robot backward\n\tt: Increase speed\n\tg: Decrease speed\n\tx: Stop GoPiGo Robot\n\tz: Exit\n"
 while True:
 	print "Enter the Command:",
 	a=raw_input()	# Fetch the input from the terminal
 	if a=='w':
-		fwd_slow()	# Move forward
+		fwd()	# Move forward
 	elif a=='a':
 		left()	# Turn left
 	elif a=='d':

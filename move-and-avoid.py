@@ -15,7 +15,7 @@ m = Move()
 kb = KBHit()
 
 print ("press jkl to move left, straight, right, i to go back, m to stop, ESC to exit")
-
+print ("if an obstacle is detected, the robot will stop and backup")
 while not stop_now:
     if (kb.kbhit()):
         c = kb.getch()
@@ -37,8 +37,10 @@ while not stop_now:
     dist = us_dist(15)
     if (dist < dist_to_stop):
 	    m.stop()
+	    set_left_speed(100)
+	    set_right_speed(100)
 	    bwd()
-	    time.sleep(1)
+	    time.sleep(0.5)
 	    m.stop()
     m.course_correct()
     time.sleep(0.1)

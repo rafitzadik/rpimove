@@ -1,6 +1,8 @@
+#!/usr/bin/env python
 import signal
 from kbhit import KBHit
 from rmove import *
+import time
 
 def signalHandler(signum, frame):
 	if signum in [signal.SIGINT, signal.SIGTERM]:
@@ -20,23 +22,33 @@ while not stop_now:
     if (kb.kbhit()):
         c = kb.getch()
         if c == 'j':
-            m.move(0.5)
+            print "left"
+            m.move(0.5, 100)
         elif c == 'l':
-            m.move(2)
+            print "right"
+            m.move(2, 100)
         elif c == 'k':
-            m.move(1)
+            print "straight"
+            m.move(1, 200)
         elif c == 'm':
+            print "stop"
             m.stop()
 	elif c == 'i':
+            print "back"
             m.stop()
 	    set_left_speed(100)
+	    time.sleep(0.1)
 	    set_right_speed(100)
 	    bwd()
         elif ord(c) == 27:
             stop_now = True
     dist = us_dist(15)
     if (dist < dist_to_stop):
+	    print "too close. stop and back up"
 	    m.stop()
+	    set_left_speed(100)
+	    time.sleep(0.1)
+	    set_right_speed(100)
 	    bwd()
 	    time.sleep(1)
 	    m.stop()
